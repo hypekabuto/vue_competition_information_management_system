@@ -18,7 +18,7 @@
             </el-form-item>
             <el-form-item prop="code">
               <div class="label-container">
-                <span class="alertText">验证码:</span>
+                <span class="alertText">验证码</span>
                 <el-input class="inputAero" v-model="form.code" placeholder="请输入验证码"></el-input>
               </div>
               <div style="margin-top: 20px;max-height: 50px;">
