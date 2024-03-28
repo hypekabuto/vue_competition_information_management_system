@@ -27,11 +27,11 @@ export default new VueRouter({
                 { path: 'home', name: 'homeView', component: HomeView },
                 { path: 'userCenter', name: 'userCenter', component: userCenterView },
                 { path: 'competitionList', name: 'competitionList', component: competitionListView },
-                { path: 'competitionDetail', name: 'competitionDetail', component: competitionDetail }, // 假设 competitionDetail 需要一个 id 参数
+                { path: 'competitionDetail', name: 'competitionDetail', component: competitionDetail },
                 { path: 'forumList', name: 'forumList', component: forumListView },
-                { path: 'forumDetail', name: 'forumDetail', component: forumDetailView }, // 假设 forumDetail 也需要一个 id 参数
+                { path: 'forumDetail', name: 'forumDetail', component: forumDetailView },
                 { path: 'trainList', name: 'trainList', component: trainListView },
-                { path: 'trainDetail', name: 'trainDetail', component: trainDetailView }, // 假设 trainDetail 需要一个 id 参数
+                { path: 'trainDetail', name: 'trainDetail', component: trainDetailView },
                 // 添加重定向到 homeView
                 { path: '', redirect: 'home' }
             ]

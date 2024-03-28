@@ -7,7 +7,7 @@
             <el-form-item prop="account">
               <div class="label-container">
                 <span class="alertText">账号</span>
-                <el-input class="inputAero" size="medium" v-model="form.account" placeholder="请输入账号"></el-input>
+                <el-input class="inputAero" size="medium" v-model="form.stuId" placeholder="请输入学号"></el-input>
               </div>
             </el-form-item>
             <el-form-item prop="password">
@@ -26,7 +26,7 @@
                 <span class="changeCodeImage">看不清？换一张</span>
               </div>
             </el-form-item>
-            <el-button  type="primary" class="button">Log In</el-button>
+            <el-button  type="primary" class="button" @click="logIn">Log In</el-button>
             <div style="font-size: 12px;color: #460088">
               <div style="cursor: pointer;display: inline-block;width: 20%">找回密码</div>
               <div style="cursor: pointer;display: inline-block;width: 20%">注册</div>
@@ -39,18 +39,26 @@
 </template>
 
 <script>
+import {login} from "../api/logIn";
   export default {
     name:"logIn",
       data(){
         return{
           form:{
-            account:'',
+            stuId:'',
             password:'',
             code:''
           },
           imagePath:""
         }
       },
+    methods:{
+      logIn(){
+        login(this.form).then((res)=>{
+          console.log(res);
+        });
+      }
+    },
     mounted() {
       this.imagePath=require('@/assets/images/login/code.jpg')
     }
