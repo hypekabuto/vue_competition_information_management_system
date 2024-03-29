@@ -23,12 +23,16 @@
 </template>
 
 <script>
+import {getRole,getMenuData} from "@/api";
+import router from "@/router";
+
 export default {
   name:"userHeader",
   data(){
     return {
       activeIndex: '1',
       activeIndex2: '1',
+      roleId:[],
       menuData:[
         {
           path:'/home',
@@ -82,8 +86,15 @@ export default {
     noChildren(){
       return this.menuData.filter(item => !item.children)
     }
+  },
+  mounted() {
+    getRole().then((res)=>{
+      this.roleId = res.data.data;
+    });
+    getMenuData(this.roleId).then((res)=>{
+      console.log(res);
+    })
   }
-
 }
 </script>
 
