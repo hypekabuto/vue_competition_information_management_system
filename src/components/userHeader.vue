@@ -23,49 +23,17 @@
 </template>
 
 <script>
+import {getRole,getMenuData} from "@/api";
+import router from "@/router";
+
 export default {
   name:"userHeader",
   data(){
     return {
       activeIndex: '1',
       activeIndex2: '1',
-      menuData:[
-        {
-          path:'/home',
-          name:'home',
-          label:'首页',
-          icon:'s-home',
-          url:'/home'
-        },
-        {
-          path:'/competitionList',
-          name:'competitionList',
-          label:'竞赛列表',
-          icon:'s-operation',
-          url:'/competitionList'
-        },
-        {
-          path:'/trainList',
-          name:'trainList',
-          label:'培训列表',
-          icon:'reading',
-          url:'/trainList'
-        },
-        {
-          path:'/forumList',
-          name:'forumList',
-          label:'讨论区',
-          icon:'chat-dot-round',
-          url:'/forumList'
-        },
-        {
-          path:'/userCenter',
-          name:'userCenter',
-          label:'个人中心',
-          icon:'user-solid',
-          url:'/userCenter'
-        },
-      ]
+      roleIds:[],
+      menuData:[]
     }
   },
   methods: {
@@ -82,8 +50,21 @@ export default {
     noChildren(){
       return this.menuData.filter(item => !item.children)
     }
-  }
+  },
+  mounted() {
+    getRole().then((res) => {
+      this.roleIds = res.data.data;
+      const roleLists = this.roleIds.map(roleId => ({
+        "roleId": roleId
+      }));
+      console.log("asdas" + JSON.stringify(roleLists)); // 使用 JSON.stringify 来更好地查看对象
+      getMenuData(roleLists).then((res) => {
+        this.menuData = res.data.data;
 
+      })
+    });
+
+  }
 }
 </script>
 

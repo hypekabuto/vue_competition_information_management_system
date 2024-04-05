@@ -40,6 +40,7 @@
 
 <script>
 import {login} from "../api/logIn";
+import router from "@/router";
   export default {
     name:"logIn",
       data(){
@@ -49,13 +50,23 @@ import {login} from "../api/logIn";
             password:'',
             code:''
           },
-          imagePath:""
+          imagePath:"",
+          alertMsg:""
         }
       },
     methods:{
       logIn(){
         login(this.form).then((res)=>{
-          console.log(res);
+          if(res.data.code===200){
+            this.$message({
+              message: res.data.msg,
+              type: 'success'
+            });
+            localStorage.setItem("Authorization",res.data.data);
+            router.push("/");
+          }else {
+            this.$message.error(res.data.msg);
+          }
         });
       }
     },

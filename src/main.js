@@ -5,7 +5,6 @@ import 'element-ui/lib/theme-chalk/index.css';
 import VueRouter from "vue-router";
 import router from "@/router";
 import store from "@/store";
-
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.use(VueRouter)
@@ -30,6 +29,16 @@ Vue.use(VueRouter)
 //     next('/login');
 //   }
 // });
+router.beforeEach((to,from,next) =>{
+  const isAuthenticated = () => {
+    return localStorage.getItem('Authorization') !== null
+  }
+  if (to.path === '/logIn' || isAuthenticated()) {
+    next();
+  } else {
+    next('/logIn');
+  }
+})
 new Vue({
   router,
   store,
