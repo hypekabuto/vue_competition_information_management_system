@@ -5,36 +5,40 @@
         <el-form :inline="true" ref="chooseElementForm" :model="chooseElementForm" label-width="70px">
           <el-col :span="4.2">
             <el-form-item label="培训名称">
-              <el-input style="width: 17vh" size="small" v-model="chooseElementForm.trainName"></el-input>
+              <el-input clearable style="width: 17vh" size="small" v-model="chooseElementForm.trainName"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="4.2">
-            <el-form-item label="竞赛名称">
-              <el-input style="width: 17vh" size="small" v-model="chooseElementForm.competitionName"></el-input>
-            </el-form-item>
-          </el-col>
+<!--          <el-col :span="4.2">-->
+<!--            <el-form-item label="竞赛名称">-->
+<!--              <el-input clearable style="width: 17vh" size="small" v-model="chooseElementForm.competitionName"></el-input>-->
+<!--            </el-form-item>-->
+<!--          </el-col>-->
           <el-col :span="4.2">
             <el-form-item label="开设学院">
-              <el-select style="width: 20vh" size="small" v-model="chooseElementForm.college" placeholder="请选择负责学院">
-                <el-option label="信息工程学院" value="2001"></el-option>
-                <el-option label="传媒与艺术学院" value="2002"></el-option>
-                <el-option label="金融贸易学院" value="2003"></el-option>
-                <el-option label="国际学院" value="2004"></el-option>
-                <el-option label="城市学院" value="2005"></el-option>
-                <el-option label="继续教育学院" value="2006"></el-option>
+              <el-select clearable style="width: 20vh" size="small" v-model="chooseElementForm.collegeId" placeholder="请选择负责学院">
+                <el-option
+                    v-for="item in collegeList"
+                    :key="item.collegeId"
+                    :label="item.collegeName"
+                    :value="item.collegeId">
+                </el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="2.1">
             <el-form-item label="培训时间">
-              <el-date-picker size="mini" type="date" placeholder="选择日期" v-model="chooseElementForm.dataTime" style="width: 100%;"></el-date-picker>
+              <el-date-picker clearable size="mini" type="date" placeholder="选择日期" v-model="chooseElementForm.dataTime" style="width: 100%;"></el-date-picker>
             </el-form-item>
           </el-col>
           <el-col :span="3.1">
             <el-form-item label="当前状态">
-              <el-select style="width: 17vh" size="small" v-model="chooseElementForm.status" placeholder="状态选择">
-                <el-option label="报名阶段" value="4001"></el-option>
-                <el-option label="已结束" value="4003"></el-option>
+              <el-select clearable style="width: 17vh" size="small" v-model="chooseElementForm.stage" placeholder="状态选择">
+                <el-option
+                    v-for="item in stageList"
+                    :key="item.codeValue"
+                    :label="item.codeMeaning"
+                    :value="item.codeValue">
+                </el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -79,6 +83,9 @@
 </template>
 
 <script>
+import {getCollegeList} from "@/api";
+import {selectDictionaryList} from "@/api/competition";
+
 export default {
   name:"trainListView",
   data(){
@@ -86,10 +93,9 @@ export default {
       chooseElementForm:{
         trainId:"",
         trainName:"",
-        competitionName:"",
-        college:"",
+        collegeId:"",
         dataTime:"",
-        status:"",
+        stage:"",
       },
       trainList:[
         {trainId:"001",competitionImage:require('@/assets/images/trainImage/image01.jpg'),trainName:"第999届疾旋鼬手办制作大赛",tagType:"4001",time:"2023-11-27"},
@@ -100,12 +106,19 @@ export default {
         {trainId:"006",competitionImage:require('@/assets/images/trainImage/image01.jpg'),trainName:"第999届企鹅手办制作大赛",tagType:"4002",time:"2024-08-14"},
         {trainId:"007",competitionImage:require('@/assets/images/trainImage/image01.jpg'),trainName:"第999届喵天帝手办制作大赛",tagType:"4003",time:"2023-09-19"}
       ],
+      collegeList:[],
+      stageList:[]
     }
   },
   mounted() {
     this.chooseElementForm.trainName = "";
     this.chooseElementForm.trainName = this.$route.query.trainName;
-    console.log(this.$route.query.trainName);
+    getCollegeList().then((res) => {
+      this.collegeList=res.data.data
+    });
+    selectDictionaryList("stage").then((res) => {
+      this.stageList = res.data.data;
+    });
   },
   methods:{
     turnToDetail(value){
